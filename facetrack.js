@@ -5,9 +5,9 @@ var $FaceTrack = {
 	init: function(canvas){
 		if ($FaceTrack.isInit)
 			return;
-		
+
 		$FaceTrack.isInit = true;
-		$FaceTrack.tracker = new clm.tracker({useWebGL : true});
+		$FaceTrack.tracker = new clm.tracker();
 		$FaceTrack.tracker.init(pModel);
 		$FaceTrack.tracker.start(canvas);
 	},
