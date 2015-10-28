@@ -1,0 +1,1 @@
+Barebones selfie cam experiment with the [clmtrackr](https://github.com/auduno/clmtrackr) face tracking library.
