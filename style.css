@@ -1,0 +1,16 @@
+html, body {
+	width: 100%;
+ 	padding: 0;
+ 	margin: 0;
+ 	border: 0;
+}
+
+video { display: none }
+#videoCanvas {display: none;}
+canvas { width: 100%; }
+
+@media screen and (min-width: 500px) {
+	body {
+		width: 500px;
+	}
+}

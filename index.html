@@ -1,0 +1,34 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+  	<meta name="theme-color" content="#000">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+
+	<div id="display">
+		<video autoplay="true"></video>
+		<canvas id="videoCanvas" width="128" height="128"></canvas>
+		<canvas id="compositeCanvas"></canvas>
+	</div>
+
+	<input type="button" value="wait, loading video" disabled="disabled" id="startbutton"></input>
+	<input type="button" value="source" id="switchsource"></input>
+
+<script type="text/javascript" src="screenfull.min.js"></script>
+<script type="text/javascript" src="clmtrackr.min.js"></script>
+<script type="text/javascript" src="model_pca_10_svm.js"></script>
+<script type="text/javascript" src="vidstream.js"></script>
+<script type="text/javascript" src="facetrack.js"></script>
+<script type="text/javascript" src="cam-ui.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', $VidStream.init, false);
+</script>
+</body>
+
+</html>
