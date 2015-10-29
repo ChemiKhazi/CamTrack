@@ -62,7 +62,7 @@ var $VidStream = {
             return false;
         
         var mirrorImg = 1;
-        if ($VidStream.sources.length == 1 || $VidStream.sources[$VidStream.currentStream].isMirror)
+        if ($VidStream.sources.length == 1 || $VidStream.sourceCurrent.isMirror)
             mirrorImg = -1;
 
         // Copy the video over to the context
@@ -104,6 +104,9 @@ var $VidStream = {
             }
         }
         $VidStream.fetchStream(0);
+    },
+    sourceCurrent: function(){
+        return $VidStream.sources[$VidStream.currentStream];
     },
     fetchStream: function(sourceIndex){
         // console.log("fetchStream " + sourceIndex);
