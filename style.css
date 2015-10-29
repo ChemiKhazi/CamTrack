@@ -17,8 +17,12 @@ html, body {
 }
 
 video { display: none }
-#videoCanvas {display: none;}
 canvas { width: 100%; }
+
+#videoCanvas, #debugCanvas {
+	display: none;
+}
+
 
 @media screen and (min-width: 500px) {
 	body {

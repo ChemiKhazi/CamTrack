@@ -14,21 +14,23 @@
 
 	<div id="display">
 		<video autoplay="true"></video>
-		<canvas id="videoCanvas" width="128" height="128"></canvas>
+		<canvas id="debugCanvas"></canvas>
+		<canvas id="videoCanvas"></canvas>
 		<canvas id="compositeCanvas"></canvas>
 	</div>
 
 	<input type="button" value="wait, loading video" disabled="disabled" id="startbutton"></input>
 	<input type="button" value="source" id="switchsource"></input>
 
-<script type="text/javascript" src="clm/clmtrackr.min.js"></script>
-<script type="text/javascript" src="clm/model_pca_10_svm.js"></script>
-<script type="text/javascript" src="screenfull.min.js"></script>
+<script type="text/javascript" src="headtrackr.min.js"></script>
+
+<script type="text/javascript" src="ext/screenfull.min.js"></script>
 <script type="text/javascript" src="vidstream.js"></script>
 <script type="text/javascript" src="facetrack.js"></script>
 <script type="text/javascript" src="cam-ui.js"></script>
 <script type="text/javascript" src="main.js"></script>
 <script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', $Main.preInit, false);
 	document.addEventListener('DOMContentLoaded', $VidStream.init, false);
 </script>
 </body>

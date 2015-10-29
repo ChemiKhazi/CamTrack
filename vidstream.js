@@ -33,6 +33,9 @@ var $VidStream = {
             }
         }
     },
+    isMirrored: function(){
+        return $VidStream.sources.length == 1 || $VidStream.sourceCurrent().isMirror;
+    },
     setupContext: function(){
         console.log("Setup context");
         $VidStream.video.removeEventListener('playing', $VidStream.setupContext);
@@ -62,7 +65,7 @@ var $VidStream = {
             return false;
         
         var mirrorImg = 1;
-        if ($VidStream.sources.length == 1 || $VidStream.sourceCurrent.isMirror)
+        if ($VidStream.isMirrored())
             mirrorImg = -1;
 
         // Copy the video over to the context
