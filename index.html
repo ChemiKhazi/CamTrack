@@ -13,10 +13,12 @@
 <body>
 
 	<div id="display">
-		<video autoplay="true"></video>
+		<video id="video" autoplay="true"></video>
 		<canvas id="debugCanvas"></canvas>
 		<canvas id="videoCanvas"></canvas>
-		<canvas id="compositeCanvas"></canvas>
+		<div id="scaler">
+			<canvas id="compositeCanvas"></canvas>
+		<div>
 	</div>
 
 	<input type="button" value="wait, loading video" disabled="disabled" id="startbutton"></input>
@@ -25,6 +27,9 @@
 <script type="text/javascript" src="headtrackr.min.js"></script>
 
 <script type="text/javascript" src="ext/screenfull.min.js"></script>
+
+<script type="text/javascript" src="fabric.min.js"></script>
+
 <script type="text/javascript" src="vidstream.js"></script>
 <script type="text/javascript" src="facetrack.js"></script>
 <script type="text/javascript" src="cam-ui.js"></script>

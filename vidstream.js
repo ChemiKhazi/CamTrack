@@ -52,11 +52,11 @@ var $VidStream = {
         console.log($VidStream.sizeH);
 
         // Setup the region of the video element that needs to be copied to canvas
-        $VidStream.copyPos = [0,0];
+        $VidStream.copyPos = {x: 0, y: 0};
         if ($VidStream.video.videoWidth > $VidStream.sizeH)
-            $VidStream.copyPos[0] = Math.round(($VidStream.video.videoWidth - $VidStream.sizeH) / 2);
+            $VidStream.copyPos.x = Math.round(($VidStream.video.videoWidth - $VidStream.sizeH) / 2);
         if ($VidStream.video.videoHeight > $VidStream.sizeH)
-            $VidStream.copyPos[1] = Math.round(($VidStream.video.videoHeight - $VidStream.sizeH) / 2);
+            $VidStream.copyPos.y = Math.round(($VidStream.video.videoHeight - $VidStream.sizeH) / 2);
 
         $Main.init();
     },
@@ -66,7 +66,7 @@ var $VidStream = {
         
         // Copy the video over to the context
         context.drawImage($VidStream.video,
-                        $VidStream.copyPos[0],$VidStream.copyPos[1],
+                        $VidStream.copyPos.x,$VidStream.copyPos.y,
                         $VidStream.sizeH, $VidStream.sizeH,
                         0, 0, $VidStream.sizeH, $VidStream.sizeH);
 

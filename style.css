@@ -3,6 +3,7 @@ html, body {
  	padding: 0;
  	margin: 0;
  	border: 0;
+ 	overflow: hidden;
  	
    -moz-user-select: -moz-none;
    -khtml-user-select: none;
@@ -23,6 +24,19 @@ canvas { width: 100%; }
 	display: none;
 }
 
+#display #scaler {
+	width: 100%;
+	padding-top: 100%;
+	position: relative !important; 
+}
+
+#display #scaler .canvas-container {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
 @media screen and (min-width: 500px) {
 	body {

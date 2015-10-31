@@ -1,22 +1,55 @@
 var $Main = {
-	canvas: null,
-	context: null,
 	trackEvt: null,
 	img: null,
+	imgLoaded: null,
+	imgInScene: false,
+	dbgRect: null,
+	fabric: null,
+	video: null,
+	size: null,
 	preInit: function(){
-		$Main.canvas = document.querySelector("#compositeCanvas");
-		$Main.canvas.width = $Main.canvas.height = window.screen.width;
-		$Main.context = $Main.canvas.getContext('2d');
-		$Main.context.fillStyle = "#000";
-		$Main.context.fillRect(0, 0, window.screen.width, window.screen.width);
+		
+		var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+		var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+		var size = Math.min(w, h, 500);
+		$Main.size = size;
+
+		document.querySelector("#display").style.width = size + "px";
+
+		$Main.fabric = new fabric.Canvas("compositeCanvas", {
+				backgroundColor: 'rgb(0,0,0)',
+				width: size,
+				height: size
+			});
+		
+		console.log(size);
+		var el = $Main.fabric.getElement();
+		el.width = el.height = size;
+		console.log(el.width + ", " + el.height);
 	},
 	init: function(){
 		$CamUi.init();
 
-		$Main.canvas.width = $Main.canvas.height = $VidStream.sizeH;
+		var el = $Main.fabric.getElement();
+		el.width = el.height = $VidStream.sizeH;
 
-		$Main.img = new Image();
-		$Main.img.src = "helmet-test.png";
+		document.querySelector("#display").style.width = $VidStream.sizeH + "px";
+
+		var scaleBy = ($Main.size / $VidStream.sizeH) * 100;
+		var scaleStyle = document.querySelector("#scaler").style;
+		scaleStyle.width = scaleBy + "%";
+		scaleStyle.paddingTop =scaleBy + "%"; 
+
+		$Main.video = new fabric.Image($VidStream.video, {
+			left: -$VidStream.copyPos.x,
+			top: -$VidStream.copyPos.y,
+			selectable: false,
+			width: $VidStream.video.videoWidth,
+			height: $VidStream.video.videoHeight,
+			originX: 'left',
+			originY: 'top'
+		});
+		$Main.fabric.add($Main.video);
 
 		$Main.update();
 	},
@@ -43,49 +76,52 @@ var $Main = {
 		$VidStream.toggleStream();
 	},
 	update: function(){
+
+		if ($Main.trackEvt !== null && $Main.img !== null)
+		{
+			var evt = $Main.trackEvt;
+
+			var x = evt.x;
+			var y = evt.y;
+			var angle = (evt.angle * 180/Math.PI)-90;
+			var scale = (evt.width * 2.5) / $Main.img.width;
+
+			x -= $VidStream.copyPos.x;
+			y -= $VidStream.copyPos.y;
+
+			var targetY = -(evt.height / 2) + (evt.width / 3) * 1.8;
+
+			$Main.img.set({
+				left: x,
+				top: y,
+				angle: angle,
+				transformMatrix: [scale, 0, 0, scale, 0, targetY]
+			});
+		}
+
+		$Main.fabric.renderAll();
 		requestAnimationFrame($Main.update);
 
-		$VidStream.copyToCanvas($VidStream.context);
-		$Main.context.drawImage($VidStream.canvas, 0, 0);
-
-		if ($Main.trackEvt === null)
-			return
-
-		var x = $Main.trackEvt.x; 
-		var y = $Main.trackEvt.y;
-		var angle = $Main.trackEvt.angle;
-		var scale = 1;
-
-		x -= $VidStream.copyPos[0];
-		y -= $VidStream.copyPos[1];
-
-		$Main.context.translate(x, y)
-		$Main.context.rotate(angle-(Math.PI/2));
-
-		$Main.context.strokeStyle = "#00CC00";
-		$Main.context.strokeRect((-($Main.trackEvt.width/2)) >> 0, (-($Main.trackEvt.height/2)) >> 0, $Main.trackEvt.width, $Main.trackEvt.height);
-
-		// $Main.context.beginPath();
-		// $Main.context.arc(0, 0, 50, 0, 2*Math.PI);
-		// $Main.context.fillStyle = "#CC0000";
-		// $Main.context.fill();
-
-		var offX = -$Main.img.width * 0.5;
-		var offY = -$Main.trackEvt.height * 0.5 - $Main.img.height * 0.1;
-		
-		$Main.context.translate(offX, offY);
-		$Main.context.scale(scale, scale);
-		$Main.context.drawImage($Main.img, 0, 0); //-$Main.trackEvt.width/2, $Main.trackEvt.height/2);
-		$Main.context.scale(scale, scale);
-		$Main.context.translate(-offX, -offY);
-
-		$Main.context.rotate((Math.PI/2)-angle);
-		$Main.context.translate(-x, -y);
 	},
 	onTrackEvent: function(event) {
 
 		if (event.detection == "CS") {
 			$Main.trackEvt = event;
+			if (!$Main.imgInScene) {
+
+				// $Main.fabric.add($Main.img);
+				fabric.Image.fromURL('helmet-test.png', function(img){
+					$Main.img = img;
+					$Main.imgLoaded = true;
+					img.set({
+						originX: 'center',
+						originY: 'center',
+						selectable: false
+					});
+					$Main.fabric.add(img);
+				});
+				$Main.imgInScene = true;
+			}
 		}
 	}
 };
