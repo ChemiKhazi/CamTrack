@@ -2,6 +2,7 @@ var $Main = {
 	canvas: null,
 	context: null,
 	trackEvt: null,
+	img: null,
 	preInit: function(){
 		$Main.canvas = document.querySelector("#compositeCanvas");
 		$Main.canvas.width = $Main.canvas.height = window.screen.width;
@@ -14,6 +15,8 @@ var $Main = {
 
 		$Main.canvas.width = $Main.canvas.height = $VidStream.sizeH;
 
+		$Main.img = new Image();
+		$Main.img.src = "helmet-test.png";
 
 		$Main.update();
 	},
@@ -51,19 +54,31 @@ var $Main = {
 		var x = $Main.trackEvt.x; 
 		var y = $Main.trackEvt.y;
 		var angle = $Main.trackEvt.angle;
-
-		if ($VidStream.isMirrored()){
-			x = $VidStream.video.videoWidth - x;
-			angle *= -1;
-		}
+		var scale = 1;
 
 		x -= $VidStream.copyPos[0];
 		y -= $VidStream.copyPos[1];
 
 		$Main.context.translate(x, y)
 		$Main.context.rotate(angle-(Math.PI/2));
+
 		$Main.context.strokeStyle = "#00CC00";
 		$Main.context.strokeRect((-($Main.trackEvt.width/2)) >> 0, (-($Main.trackEvt.height/2)) >> 0, $Main.trackEvt.width, $Main.trackEvt.height);
+
+		// $Main.context.beginPath();
+		// $Main.context.arc(0, 0, 50, 0, 2*Math.PI);
+		// $Main.context.fillStyle = "#CC0000";
+		// $Main.context.fill();
+
+		var offX = -$Main.img.width * 0.5;
+		var offY = -$Main.trackEvt.height * 0.5 - $Main.img.height * 0.1;
+		
+		$Main.context.translate(offX, offY);
+		$Main.context.scale(scale, scale);
+		$Main.context.drawImage($Main.img, 0, 0); //-$Main.trackEvt.width/2, $Main.trackEvt.height/2);
+		$Main.context.scale(scale, scale);
+		$Main.context.translate(-offX, -offY);
+
 		$Main.context.rotate((Math.PI/2)-angle);
 		$Main.context.translate(-x, -y);
 	},

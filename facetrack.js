@@ -9,7 +9,8 @@ var $FaceTrack = {
 		$FaceTrack.isInit = true;
 		$FaceTrack.tracker = new headtrackr.Tracker({
 			calcAngles: true,
-			ui: false
+			ui: false,
+			smoothing: true
 		});
 
 		$FaceTrack.canvas = document.querySelector("#debugCanvas");
