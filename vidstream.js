@@ -64,16 +64,11 @@ var $VidStream = {
         if ($VidStream.copyPos === undefined && $VidStream.video.readyState !== $VidStream.video.HAVE_ENOUGH_DATA )
             return false;
         
-        var mirrorImg = 1;
-        if ($VidStream.isMirrored())
-            mirrorImg = -1;
-
         // Copy the video over to the context
-        context.scale(mirrorImg, 1);
         context.drawImage($VidStream.video,
                         $VidStream.copyPos[0],$VidStream.copyPos[1],
                         $VidStream.sizeH, $VidStream.sizeH,
-                        0, 0, $VidStream.sizeH * mirrorImg, $VidStream.sizeH);
+                        0, 0, $VidStream.sizeH, $VidStream.sizeH);
 
         context.restore();
         return true;
